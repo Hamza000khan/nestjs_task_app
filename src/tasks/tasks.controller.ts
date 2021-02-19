@@ -1,6 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UsePipes, ValidationPipe } from '@nestjs/common';
 import { TasksService } from './tasks.service';
-import { Task, TaskStatus } from './task.model';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { ApiBody, ApiCreatedResponse, ApiParam } from '@nestjs/swagger'
 import { GetClassFilterDto } from './dto/get-tasks-filter.dto';
