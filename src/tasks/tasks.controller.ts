@@ -1,9 +1,10 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Query, UsePipes, ValidationPipe } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { ApiBody, ApiCreatedResponse, ApiParam } from '@nestjs/swagger'
 import { GetClassFilterDto } from './dto/get-tasks-filter.dto';
 import { TaskStatusValidationPipe } from './pipes/task-status-validation.pipe';
+import { Task } from './task.entity';
 
 
 
@@ -21,11 +22,11 @@ export class TasksController {
     //     }
     // }
 
-    // @Get('/:id')
-    // getTaskById(@Param('id') id:string): Task {
-    //     return this.taskService.getTaskById(id)
+    @Get('/:id')
+    getTaskById(@Param('id', ParseIntPipe) id:number): Promise<Task> {
+        return this.taskService.getTaskById(id)
 
-    // }
+    }
 
     // @Delete('/:id')
     // deleteTask(@Param('id') id:string) {
@@ -39,15 +40,15 @@ export class TasksController {
     // };
 
 
-    // @Post()
-    // @UsePipes(ValidationPipe)
-    // @ApiBody({type: Task})
-    // @ApiCreatedResponse({
-    //     description: 'Task Creation'
-    // })
-    // createTask(@Body() createTaskDto: CreateTaskDto): Task {
-    //     return this.taskService.createTask(createTaskDto)
+    @Post()
+    @UsePipes(ValidationPipe)
+    @ApiBody({type: Task})
+    @ApiCreatedResponse({
+        description: 'Task Creation'
+    })
+    createTask(@Body() createTaskDto: CreateTaskDto): Promise<Task> {
+        return this.taskService.createTask(createTaskDto)
 
 
-    // }
+    }
 }
