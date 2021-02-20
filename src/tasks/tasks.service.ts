@@ -34,6 +34,7 @@ export class TasksService {
     //     return tasks
     // };
 
+    // Get task by Id
     async getTaskById(id: number): Promise<Task> {
         const found = await this.taskRepository.findOne(id);
         if (!found) {
@@ -47,15 +48,16 @@ export class TasksService {
         return this.taskRepository.createTask(createTaskDto);
     }
 
+    // Update task service
+    async updateTaskStatus(id: number, status: TaskStatus): Promise<Task> {
+        const task = await this.getTaskById(id);
+        task.status = status;
+        await task.save();
+        return task
 
-    // updateTaskStatus(id:string, status:TaskStatus): Task {
-    //     const task = this.getTaskById(id);
-    //     task.status = status;
-    //     return task 
+    };
 
-    // };
-
-
+    // Delete task service
     async deleteTask(id: number): Promise<void> {
         const found = await this.taskRepository.delete(id);
         if (found.affected === 0) {
