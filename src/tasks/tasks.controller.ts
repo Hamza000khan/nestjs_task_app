@@ -10,7 +10,7 @@ import { Task } from './task.entity';
 
 @Controller('tasks')
 export class TasksController {
-    constructor(private taskService: TasksService){}
+    constructor(private taskService: TasksService) { }
 
     // @Get()
     // getTasks(@Query(ValidationPipe) filterDto: GetClassFilterDto): Task[] {
@@ -23,15 +23,15 @@ export class TasksController {
     // }
 
     @Get('/:id')
-    getTaskById(@Param('id', ParseIntPipe) id:number): Promise<Task> {
+    getTaskById(@Param('id', ParseIntPipe) id: number): Promise<Task> {
         return this.taskService.getTaskById(id)
 
     }
 
-    // @Delete('/:id')
-    // deleteTask(@Param('id') id:string) {
-    //     this.taskService.deleteTask(id);
-    // };
+    @Delete('/:id')
+    deleteTask(@Param('id') id: number): Promise<void> {
+        return this.taskService.deleteTask(id);
+    };
 
     // @Patch('/:id/status')
     // editTask(@Param('id') id:string, 
@@ -42,7 +42,7 @@ export class TasksController {
 
     @Post()
     @UsePipes(ValidationPipe)
-    @ApiBody({type: Task})
+    @ApiBody({ type: Task })
     @ApiCreatedResponse({
         description: 'Task Creation'
     })
