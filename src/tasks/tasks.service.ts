@@ -14,6 +14,8 @@ export class TasksService {
         private taskRepository: TaskRepository,
     ) { };
 
+
+    // Get Task with filters and Get all tasks
     async getTasks(filterDto: GetClassFilterDto): Promise<Task[]> {
         return this.taskRepository.getTask(filterDto);
 
@@ -50,6 +52,5 @@ export class TasksService {
             throw new NotFoundException(`Task with "${id}" not found`);
         }
     };
-
 
 }

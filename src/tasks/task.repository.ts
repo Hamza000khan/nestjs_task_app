@@ -11,11 +11,11 @@ export class TaskRepository extends Repository<Task> {
         const query = this.createQueryBuilder('task');
 
         if (status) {
-            query.andWhere('task.status =:status', { status })
+            query.andWhere('task.status =:status', { status });
         }
 
         if (search) {
-            query.andWhere('(task.title LIKE :search or task.description LIKE :search)', { search: `%${search}%` })
+            query.andWhere('(task.title LIKE :search or task.description LIKE :search)', { search: `%${search}%` });
         }
 
         const tasks = query.getMany();
