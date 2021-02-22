@@ -1,15 +1,31 @@
 import { EntityRepository, Repository } from "typeorm";
 import { User } from "./user.entity";
 import { AuthCredentialsDto } from "./dto/auth-credentials.dto"
+import { ConflictException, InternalServerErrorException } from "@nestjs/common";
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
     async signUp(authCredentialsDto: AuthCredentialsDto): Promise<void> {
         const { username, password } = authCredentialsDto;
 
+        const exist = this.findOne({ username })
+
+        if (exist) {
+            // Throw some error
+        }
+
         const user = new User();
         user.username = username;
         user.password = password;
-        await user.save();
+
+        try {
+            await user.save();
+        } catch (error) {
+            if (error.code === '23505') {    // dupilicate username
+                throw new ConflictException('Username already exist')
+            } else {
+                throw new InternalServerErrorException()
+            }
+        }
     }
 
 }
