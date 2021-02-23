@@ -2,12 +2,9 @@ import {
   Body,
   Controller,
   Post,
-  Req,
-  UseGuards,
   ValidationPipe,
 } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
-import { ApiBody, ApiCreatedResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiCreatedResponse } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import { User } from './user.entity';
@@ -32,9 +29,4 @@ export class AuthController {
     return this.authService.signIn(authCredentialsDto);
   }
 
-  @Post('test')
-  @UseGuards(AuthGuard())
-  test(@Req() req) {
-    console.log(req);
-  }
 }
