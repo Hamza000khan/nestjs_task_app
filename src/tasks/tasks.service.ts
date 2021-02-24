@@ -7,6 +7,7 @@ import { TaskStatus } from './task-status.enum';
 import { Task } from './task.entity';
 import { TaskRepository } from './task.repository';
 import { User } from 'src/auth/user.entity';
+import { GetUser } from 'src/auth/get-user.decorator';
 
 @Injectable()
 export class TasksService {
@@ -17,8 +18,11 @@ export class TasksService {
 
 
     // Get Task with filters and Get all tasks
-    async getTasks(filterDto: GetClassFilterDto): Promise<Task[]> {
-        return this.taskRepository.getTask(filterDto);
+    async getTasks(
+        filterDto: GetClassFilterDto,
+        user: User,
+        ): Promise<Task[]> {
+        return this.taskRepository.getTask(filterDto, user);
 
     }
 

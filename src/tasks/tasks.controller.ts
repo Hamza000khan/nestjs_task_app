@@ -1,14 +1,14 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Query, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
-import { TasksService } from './tasks.service';
-import { CreateTaskDto } from './dto/create-task.dto';
-import { ApiBody, ApiCreatedResponse, ApiParam } from '@nestjs/swagger'
-import { GetClassFilterDto } from './dto/get-tasks-filter.dto';
-import { TaskStatusValidationPipe } from './pipes/task-status-validation.pipe';
 import { Task } from './task.entity';
-import { TaskStatus } from './task-status.enum';
-import { AuthGuard } from '@nestjs/passport';
 import { User } from 'src/auth/user.entity';
+import { AuthGuard } from '@nestjs/passport';
+import { TasksService } from './tasks.service';
+import { TaskStatus } from './task-status.enum';
+import { CreateTaskDto } from './dto/create-task.dto';
 import { GetUser } from 'src/auth/get-user.decorator';
+import { GetClassFilterDto } from './dto/get-tasks-filter.dto';
+import { ApiBody, ApiCreatedResponse, ApiParam } from '@nestjs/swagger'
+import { TaskStatusValidationPipe } from './pipes/task-status-validation.pipe';
 
 
 
@@ -18,8 +18,11 @@ export class TasksController {
     constructor(private taskService: TasksService) { }
 
     @Get()
-    getTasks(@Query(ValidationPipe) filterDto: GetClassFilterDto): Promise<Task[]> {
-        return this.taskService.getTasks(filterDto)
+    getTasks(
+        @Query(ValidationPipe) filterDto: GetClassFilterDto,
+        @GetUser() user:User,
+        ): Promise<Task[]> {
+        return this.taskService.getTasks(filterDto, user)
     }
 
     @Get('/:id')
