@@ -53,8 +53,6 @@ export class TasksService {
         status: TaskStatus,
         user: User
         ): Promise<Task> {
-        console.log('id',id,user)
-
         const task = await this.getTaskById(id, user);
         task.status = status;
         await task.save();
@@ -63,8 +61,11 @@ export class TasksService {
     };
 
     // Delete task service
-    async deleteTask(id: number): Promise<void> {
-        const found = await this.taskRepository.delete(id);
+    async deleteTask(
+        id: number,
+        user: User,
+        ): Promise<void> {
+        const found = await this.taskRepository.delete({id, userId: user.id});
         if (found.affected === 0) {
             throw new NotFoundException(`Task with "${id}" not found`);
         }

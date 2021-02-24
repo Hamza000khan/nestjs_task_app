@@ -34,8 +34,11 @@ export class TasksController {
     }
 
     @Delete('/:id')
-    deleteTask(@Param('id') id: number): Promise<void> {
-        return this.taskService.deleteTask(id);
+    deleteTask(
+        @Param('id') id: number,
+        @GetUser() user: User,
+    ): Promise<void> {
+        return this.taskService.deleteTask(id, user);
     };
 
     @Patch('/:id/status')
@@ -45,8 +48,6 @@ export class TasksController {
         @Body('status', TaskStatusValidationPipe,) status: TaskStatus,
         @GetUser() user: User,
     ): Promise<Task> {
-        console.log(id,status,user)
-
         return this.taskService.updateTaskStatus(id, status, user);
     };
 
