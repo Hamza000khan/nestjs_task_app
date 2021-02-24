@@ -38,13 +38,17 @@ export class TasksController {
         return this.taskService.deleteTask(id);
     };
 
-    // @Patch('/:id/status')
-    // @ApiBody({ type: Task })
-    // updateTaskStatus(@Param('id', ParseIntPipe) id: number,
-    //     @Body('status', TaskStatusValidationPipe) status: TaskStatus
-    // ): Promise<Task> {
-    //     return this.taskService.updateTaskStatus(id, status);
-    // };
+    @Patch('/:id/status')
+    @ApiBody({ type: Task })
+    updateTaskStatus(
+        @Param('id', ParseIntPipe) id: number,
+        @Body('status', TaskStatusValidationPipe,) status: TaskStatus,
+        @GetUser() user: User,
+    ): Promise<Task> {
+        console.log(id,status,user)
+
+        return this.taskService.updateTaskStatus(id, status, user);
+    };
 
 
     @Post()

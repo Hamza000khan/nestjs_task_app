@@ -48,13 +48,19 @@ export class TasksService {
     }
 
     // Update task service
-    // async updateTaskStatus(id: number, status: TaskStatus): Promise<Task> {
-    //     const task = await this.getTaskById(id);
-    //     task.status = status;
-    //     await task.save();
-    //     return task
+    async updateTaskStatus(
+        id: number, 
+        status: TaskStatus,
+        user: User
+        ): Promise<Task> {
+        console.log('id',id,user)
 
-    // };
+        const task = await this.getTaskById(id, user);
+        task.status = status;
+        await task.save();
+        return task
+
+    };
 
     // Delete task service
     async deleteTask(id: number): Promise<void> {
